@@ -1,0 +1,20 @@
+const express = require("express");
+const cors = require("cors");
+const inscripcionesRoutes = require("./routes/inscripciones");
+
+const materiasRoutes = require("./routes/materias");
+const profesorRoutes = require("./routes/profesor");
+const adminRoutes = require("./routes/admin");
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+app.use("/inscripciones", inscripcionesRoutes);
+app.use("/profesor", profesorRoutes);
+
+app.use("/admin", adminRoutes);
+
+app.use("/materias", materiasRoutes);
+
+module.exports = app;
