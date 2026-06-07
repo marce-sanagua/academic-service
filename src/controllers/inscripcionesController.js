@@ -8,8 +8,9 @@ const inscribir = async (req, res) => {
   try {
     
     const userResponse = await axios.get(
-      `http://localhost:3000/usuarios/${user_id}`
-    );
+  `http://localhost:3001/usuarios/${user_id}`,
+  { headers: { Authorization: req.headers.authorization } }
+);
 
     const user = userResponse.data;
 
@@ -105,9 +106,17 @@ const getMateriasDeUsuario = (req, res) => {
   });
 };
 
+const getCount = (req, res) => {
+  db.query("SELECT COUNT(*) as total FROM inscripciones", (err, result) => {
+    if (err) return res.status(500).json(err);
+    res.json({ total: result[0].total });
+  });
+};
+
 module.exports = {
   inscribir,
   getAlumnosMateria,
   eliminarInscripcion,
-  getMateriasDeUsuario
+  getMateriasDeUsuario,
+  getCount,
 };

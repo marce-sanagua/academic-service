@@ -1,12 +1,9 @@
 const express = require("express");
 const router = express.Router();
-
 const profesorController = require("../controllers/profesorController");
+const verificarToken = require("../middlewares/authMiddleware");
 
-
-router.get("/materias/:id", profesorController.getMateriasProfesor);
-
-
-router.get("/materias/:id/alumnos", profesorController.getAlumnosMateria);
+router.get("/materias/:id", verificarToken, profesorController.getMateriasProfesor);
+router.get("/materias/:id/alumnos", verificarToken, profesorController.getAlumnosMateria);
 
 module.exports = router;

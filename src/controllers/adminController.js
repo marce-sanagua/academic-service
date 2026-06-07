@@ -30,6 +30,39 @@ const getMaterias = (req, res) => {
   });
 };
 
+const eliminarMateria = (req, res) => {
+  const materia_id = req.params.id;
+
+  // Verificar que no tenga alumnos inscriptos
+  db.query(
+    "SELECT COUNT(*) as total FROM inscripciones WHERE materia_id = ?",
+    [materia_id],
+    (err, result) => {
+      if (err) return res.status(500).json(err);
+      if (result[0].total > 0) {
+        return res.status(400).json({ message: "No se puede eliminar: hay alumnos inscriptos en esta materia" });
+      }
+
+      // Verificar que no tenga profesor asignado
+      db.query(
+        "SELECT profesor_id FROM materias WHERE id = ?",
+        [materia_id],
+        (err, result) => {
+          if (err) return res.status(500).json(err);
+          if (!result[0]) return res.status(404).json({ message: "Materia no encontrada" });
+          if (result[0].profesor_id) {
+            return res.status(400).json({ message: "No se puede eliminar: tiene un profesor asignado" });
+          }
+
+          db.query("DELETE FROM materias WHERE id = ?", [materia_id], (err) => {
+            if (err) return res.status(500).json(err);
+            res.json({ message: "Materia eliminada" });
+          });
+        }
+      );
+    }
+  );
+};
 
 
 const axios = require("axios");
@@ -41,8 +74,9 @@ const asignarProfesor = async (req, res) => {
   try {
     
     const response = await axios.get(
-      `http://localhost:3000/usuarios/${profesor_id}`
-    );
+  `http://localhost:3001/usuarios/${profesor_id}`,
+  { headers: { Authorization: `Bearer ${req.headers.authorization?.split(" ")[1]}` } }
+);
 
     const usuario = response.data;
 
@@ -82,5 +116,6 @@ const asignarProfesor = async (req, res) => {
 module.exports = {
   crearMateria,
   getMaterias,
-  asignarProfesor
+  asignarProfesor,
+  eliminarMateria,
 };

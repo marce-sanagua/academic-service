@@ -6,7 +6,7 @@ const adminController = require("../controllers/adminController");
 const verificarToken = require("../middlewares/authMiddleware");
 const verificarRol = require("../middlewares/roleMiddleware");
 
-// 🔒 SOLO ADMIN puede crear materias
+
 router.post(
   "/materias",
   verificarToken,
@@ -28,6 +28,13 @@ router.put(
   verificarToken,
   verificarRol("admin"),
   adminController.asignarProfesor
+);
+
+router.delete(
+  "/materias/:id",
+  verificarToken,
+  verificarRol("admin"),
+  adminController.eliminarMateria
 );
 
 module.exports = router;

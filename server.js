@@ -1,8 +1,8 @@
 const app = require("./src/app");
-const db = require("./src/db/db");
+require("dotenv").config();
 
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
-  console.log("Academic service corriendo en puerto", PORT);
+  console.log(`Academic service corriendo en puerto ${PORT}`);
 });

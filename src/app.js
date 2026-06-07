@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
 const inscripcionesRoutes = require("./routes/inscripciones");
 
 const materiasRoutes = require("./routes/materias");
