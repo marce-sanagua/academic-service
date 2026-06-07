@@ -30,6 +30,13 @@ router.put(
   adminController.asignarProfesor
 );
 
+router.put(
+  "/materias/:id/desasignar",
+  verificarToken,
+  verificarRol("admin"),
+  adminController.desasignarProfesor
+);
+
 router.delete(
   "/materias/:id",
   verificarToken,

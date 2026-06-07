@@ -45,4 +45,16 @@ const guardarCalificacion = (req, res) => {
   );
 };
 
-module.exports = { getCalificaciones, guardarCalificacion };
+const eliminarCalificacion = (req, res) => {
+  const { id, user_id } = req.params;
+  db.query(
+    "DELETE FROM calificaciones WHERE materia_id = ? AND user_id = ?",
+    [id, user_id],
+    (err) => {
+      if (err) return res.status(500).json(err);
+      res.json({ message: "Calificación eliminada" });
+    }
+  );
+};
+
+module.exports = { getCalificaciones, guardarCalificacion, eliminarCalificacion };
