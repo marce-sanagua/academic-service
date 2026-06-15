@@ -11,6 +11,10 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.status(200).send("Academic service funcionando 🚀");
+});
 app.use("/inscripciones", inscripcionesRoutes);
 app.use("/profesor", profesorRoutes);
 
