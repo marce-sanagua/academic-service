@@ -47,7 +47,7 @@ const asignarProfesor = async (req, res) => {
   const { profesor_id } = req.body;
   try {
     const response = await axios.get(
-      `http://localhost:3001/usuarios/${profesor_id}`,
+      `${process.env.USERS_SERVICE_URL}/usuarios/${profesor_id}`,
       { headers: { Authorization: `Bearer ${req.headers.authorization?.split(" ")[1]}` } }
     );
     const usuario = response.data;

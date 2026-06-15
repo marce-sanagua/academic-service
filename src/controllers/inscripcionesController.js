@@ -5,9 +5,9 @@ const inscribir = async (req, res) => {
   const materia_id = req.params.id;
   const { user_id } = req.body;
 
-  try {
+ try {
     const userResponse = await axios.get(
-      `http://localhost:3001/usuarios/${user_id}`,
+      `${process.env.USERS_SERVICE_URL}/usuarios/${user_id}`,
       { headers: { Authorization: req.headers.authorization } }
     );
 

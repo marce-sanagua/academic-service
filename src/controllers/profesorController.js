@@ -17,12 +17,15 @@ const getAlumnosMateria = (req, res) => {
     [materia_id],
     async (err, result) => {
       if (err) return res.status(500).json(err);
-      try {
+       try {
         const alumnos = await Promise.all(
           result.map((insc) =>
-            axios.get(`http://localhost:3001/usuarios/${insc.user_id}`, {
-              headers: { Authorization: req.headers.authorization }
-            })
+            axios.get(
+              `${process.env.USERS_SERVICE_URL}/usuarios/${insc.user_id}`,
+              {
+                headers: { Authorization: req.headers.authorization }
+              }
+            )
           )
         );
         res.json(
